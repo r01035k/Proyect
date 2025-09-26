@@ -1,217 +1,125 @@
-/* Reset básico */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
-
-/* Body */
+/* -------------------- General -------------------- */
 body {
-    background-color: #f5f5f5;
-    color: #333;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+  margin: 0;
+  font-family: 'Work Sans', sans-serif;
+  background-color: #121212;
+  color: #ffffff;
 }
 
-/* Header */
-.header {
-    background-color: #ffffff;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 30px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
-
-.logo {
-    font-weight: 600;
-    font-size: 1.8rem;
-    color: #1CB698;
-}
-
-.nav-list {
-    list-style: none;
-    display: flex;
-    gap: 20px;
-}
-
-.nav-item {
-    cursor: pointer;
-    font-weight: 500;
-    padding: 5px 10px;
-    border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.nav-item.active {
-    background-color: #1CB698;
-    color: #fff;
-}
-
-.nav-item.inactive {
-    background-color: #f0f0f0;
-    color: #666;
-}
-
-/* Botones generales */
 .btn {
-    background-color: #1CB698;
-    color: #fff;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background-color 0.3s;
+  background-color: #1CB698;
+  color: #fff;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
 .btn:hover {
-    background-color: #17a489;
+  background-color: #14a286;
 }
 
-/* Main */
-.main-content {
-    flex: 1;
-    padding: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
+/* -------------------- Header -------------------- */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background-color: #1e1e1e;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.5);
 }
 
-/* Sección semanas */
-.semanas {
-    width: 100%;
-    max-width: 900px;
-}
-
-.section-title {
-    font-size: 1.5rem;
-    color: #1CB698;
-    margin-bottom: 15px;
-    text-align: center;
-}
-
-/* Scroll de semanas */
-.week-scroll {
-    display: flex;
-    overflow-x: auto;
-    gap: 10px;
-    padding: 10px 0;
-    margin-bottom: 20px;
+/* -------------------- Semana Scroll -------------------- */
+#week-scroll {
+  display: flex;
+  overflow-x: auto;
+  padding: 10px 20px;
+  gap: 10px;
+  background-color: #1a1a1a;
 }
 
 .week-btn {
-    min-width: 100px;
-    padding: 8px 15px;
-    border-radius: 8px;
-    border: 1px solid #1CB698;
-    background-color: #f0f0f0;
-    color: #333;
-    cursor: pointer;
-    text-align: center;
-    flex-shrink: 0;
-    transition: background-color 0.3s, color 0.3s;
+  padding: 8px 15px;
+  border-radius: 5px;
+  border: none;
+  background-color: #2a2a2a;
+  color: #fff;
+  cursor: pointer;
+  flex: 0 0 auto;
+  transition: 0.3s;
 }
 
 .week-btn.active {
-    background-color: #1CB698;
-    color: #fff;
+  background-color: #1CB698;
+  color: #121212;
 }
 
-/* Contenido de semana */
-.week-content {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    min-height: 150px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    margin-bottom: 20px;
+.week-btn:hover {
+  background-color: #14a286;
 }
 
-/* Upload Section */
-.upload-section {
-    margin-top: 20px;
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    align-items: center;
+/* -------------------- Contenido -------------------- */
+#week-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.upload-input {
-    padding: 5px;
+.doc-item a {
+  color: #1CB698;
+  text-decoration: none;
 }
 
-/* Footer */
-.footer {
-    text-align: center;
-    padding: 15px 0;
-    background-color: #ffffff;
-    box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
-    font-size: 0.9rem;
-    color: #666;
+.doc-item a:hover {
+  text-decoration: underline;
 }
 
-/* Modal */
+/* -------------------- Upload Section -------------------- */
+#upload-section {
+  display: none; /* solo admin */
+  padding: 15px 20px;
+  gap: 10px;
+}
+
+/* -------------------- Modal -------------------- */
 .modal {
-    display: none;
-    position: fixed;
-    z-index: 2000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7);
+  justify-content: center;
+  align-items: center;
 }
 
 .modal-content {
-    background-color: #fff;
-    padding: 30px 25px;
-    border-radius: 10px;
-    width: 300px;
-    text-align: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-}
-
-.close {
-    float: right;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: #aaa;
-}
-
-.close:hover {
-    color: #333;
+  background-color: #1e1e1e;
+  padding: 20px;
+  border-radius: 10px;
+  color: #fff;
+  width: 300px;
+  text-align: center;
+  position: relative;
 }
 
 .input-pass {
-    width: 100%;
-    padding: 8px;
-    margin: 15px 0;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+  width: 90%;
+  padding: 8px;
+  margin: 8px 0;
+  border-radius: 5px;
+  border: none;
 }
 
-/* Responsive */
-@media (max-width: 600px) {
-    .header {
-        flex-direction: column;
-        gap: 10px;
-    }
-    .nav-list {
-        flex-direction: column;
-        gap: 10px;
-    }
-    .week-scroll {
-        flex-direction: column;
-        gap: 10px;
-    }
+.close {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+  font-size: 20px;
+  color: #fff;
 }
