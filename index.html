@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portafolio Geison</title>
+    <!-- Fuente moderna -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header id="header" class="header">
+        <div class="logo" id="logo">Mi Portafolio</div>
+        <nav class="nav" id="nav">
+            <ul class="nav-list">
+                <li class="nav-item active" id="curso1">Diseño Gráfico</li>
+            </ul>
+        </nav>
+        <div class="auth" id="auth">
+            <button class="btn" id="login-btn">Iniciar Sesión</button>
+        </div>
+    </header>
+
+    <!-- Sección de semanas -->
+    <main id="main-content" class="main-content">
+        <section id="semanas" class="semanas">
+            <h2 class="section-title">Semanas</h2>
+
+            <!-- Scroll de semanas -->
+            <div class="week-scroll" id="week-scroll">
+                <!-- Se generarán dinámicamente 16 semanas -->
+            </div>
+
+            <!-- Contenido de la semana seleccionada -->
+            <div class="week-content" id="week-content">
+                <!-- Aquí se mostrarán los trabajos de la semana -->
+            </div>
+
+            <!-- Botón de subir documento (solo admin) -->
+            <div class="upload-section" id="upload-section" style="display: none;">
+                <input type="file" id="upload-input" class="upload-input">
+                <button id="upload-btn" class="btn">Subir Documento</button>
+            </div>
+        </section>
+    </main>
+
+<!-- Login Modal -->
+<div id="login-modal" class="modal">
+    <div class="modal-content">
+        <span id="close-modal" class="close">&times;</span>
+        <h2>Iniciar Sesión</h2>
+        <input type="email" id="admin-email" placeholder="Correo electrónico" class="input-pass">
+        <input type="password" id="admin-pass" placeholder="Contraseña" class="input-pass">
+        <button id="modal-login-btn" class="btn">Entrar</button>
+    </div>
+</div>
+
+<!-- Botón login -->
+<button id="login-btn" class="btn">Admin Login</button>
+
+<!-- Sección subida (solo admin) -->
+<div id="upload-section" style="display:none;">
+    <input type="file" id="upload-input">
+    <button id="upload-btn" class="btn">Subir Documento</button>
+</div>
+
+<!-- Scroll semanas -->
+<div id="week-scroll"></div>
+
+<!-- Contenido documentos -->
+<div id="week-content"></div>
+
+<!-- CDN Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
+<script src="app.js"></script>
+
+
+    <!-- Footer -->
+    <footer id="footer" class="footer">
+        <p>&copy; 2025 Geison. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
