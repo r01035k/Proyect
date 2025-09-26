@@ -1,6 +1,6 @@
 // ------------------ Inicializar Supabase ------------------
-const SUPABASE_URL = "TU_SUPABASE_URL";
-const SUPABASE_ANON_KEY = "TU_SUPABASE_ANON_KEY";
+const SUPABASE_URL = "https://lhdkokwouhekfkrylybg.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxoZGtva3dvdWhla2ZrcnlseWJnIiwicm9sZSI6ImF0IjoxNzU4OTExNzE3LCJleHAiOjIwNzQ0ODc3MTd9.5BZoCLqCkqHyU7Neq0efRof_sXSzmmuOOLG-3wKMUYs";
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // ------------------ Variables ------------------
@@ -10,6 +10,7 @@ const adminCredenciales = {
     password: "GSam123"
 };
 
+// Elementos DOM
 const loginBtn = document.getElementById("login-btn");
 const uploadSection = document.getElementById("upload-section");
 const uploadInput = document.getElementById("upload-input");
@@ -24,12 +25,13 @@ const adminEmailInput = document.getElementById("admin-email");
 const weekScroll = document.getElementById("week-scroll");
 const weekContent = document.getElementById("week-content");
 
+// Semanas
 let semanas = Array.from({length:16},(_,i)=>`Semana ${i+1}`);
 let semanaSeleccionada = 0;
 
 // ------------------ Funciones ------------------
 
-// Mostrar documentos por semana
+// Cargar documentos por semana
 async function cargarDocumentos(semana) {
     const { data, error } = await supabase
         .from('documentos')
@@ -40,12 +42,14 @@ async function cargarDocumentos(semana) {
     if(error) return alert("Error cargando documentos: "+error.message);
 
     weekContent.innerHTML = "";
-    data.forEach(doc=>{
+
+    data.forEach(doc => {
         const div = document.createElement("div");
         div.className = "doc-item";
+
         const url = `${SUPABASE_URL}/storage/v1/object/public/archivos/${doc.nombre}`;
         div.innerHTML = `<a href="${url}" target="_blank">${doc.nombre}</a>`;
-        
+
         if(isAdmin){
             const delBtn = document.createElement("button");
             delBtn.className = "btn";
@@ -57,7 +61,7 @@ async function cargarDocumentos(semana) {
                     await supabase.storage.from('archivos').remove([doc.nombre]);
                     // Borrar de tabla
                     await supabase.from('documentos').delete().eq('id', doc.id);
-                    cargarDocumentos(semanaSeleccionada+1);
+                    cargarDocumentos(semanaSeleccionada + 1);
                 }
             });
             div.appendChild(delBtn);
@@ -76,10 +80,17 @@ function seleccionarSemana(index){
 }
 
 // ------------------ Login ------------------
+
+// Abrir modal solo al hacer click en el botón
 loginBtn.addEventListener("click", ()=>{ loginModal.style.display="flex"; });
+
+// Cerrar modal al hacer click en la X
 closeModal.addEventListener("click", ()=>{ loginModal.style.display="none"; });
+
+// Cerrar modal al hacer click fuera del contenido
 window.addEventListener("click", (e)=>{ if(e.target===loginModal) loginModal.style.display="none"; });
 
+// Botón dentro del modal para iniciar sesión
 modalLoginBtn.addEventListener("click", ()=>{
     const correo = adminEmailInput.value;
     const pass = adminPassInput.value;
@@ -119,6 +130,7 @@ uploadBtn.addEventListener("click", async ()=>{
 });
 
 // ------------------ Inicialización ------------------
+
 // Crear botones de semanas
 semanas.forEach((sem,index)=>{
     const btn = document.createElement("button");
@@ -127,5 +139,6 @@ semanas.forEach((sem,index)=>{
     btn.addEventListener("click", ()=>seleccionarSemana(index));
     weekScroll.appendChild(btn);
 });
+
 // Mostrar semana 1 por defecto
 seleccionarSemana(0);

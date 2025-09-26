@@ -59,11 +59,17 @@
 <!-- Botón login -->
 <button id="login-btn" class="btn">Admin Login</button>
 
-<!-- Sección subida (solo admin) -->
-<div id="upload-section" style="display:none;">
-    <input type="file" id="upload-input">
-    <button id="upload-btn" class="btn">Subir Documento</button>
+<!-- Login Modal -->
+<div id="login-modal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <span id="close-modal" class="close">&times;</span>
+        <h2>Iniciar Sesión</h2>
+        <input type="email" id="admin-email" placeholder="Correo electrónico" class="input-pass">
+        <input type="password" id="admin-pass" placeholder="Contraseña" class="input-pass">
+        <button id="modal-login-btn" class="btn">Entrar</button>
+    </div>
 </div>
+
 
 <!-- Scroll semanas -->
 <div id="week-scroll"></div>
