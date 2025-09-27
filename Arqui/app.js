@@ -6,9 +6,10 @@ const supabaseKey = process.env.SUPABASE_KEY
 const supabase = createClient(supabaseUrl, supabaseKey)
 
 
+
 // Credenciales de admin
 const ADMIN_EMAIL = 'geison.c.samaniego@gmail.com'
-const ADMIN_PASS = 'Gsam1260'
+const ADMIN_PASS = 'Gsam123'
 
 // Variables globales
 let isAdmin = false
@@ -41,7 +42,7 @@ loginForm.addEventListener('submit', e => {
     alert('¡Bienvenido Admin!')
     renderDocuments()  // recarga documentos para mostrar botones de eliminar
   } else {
-    alert('Credenciales incorrectas')
+    alert('Acceso denegado')
   }
 })
 

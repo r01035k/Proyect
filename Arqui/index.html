@@ -3,48 +3,51 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portafolio Académicoooo</title>
+  <title>Portafolio Académico</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <!-- HEADER -->
   <header class="header">
-    <h1>Portafolio Académico</h1>
-    <button type="button" class="btn" id="login-btn">Iniciar sesión</button>
+    <div class="header-left">
+      <h1>Portafolio</h1>
+    </div>
+    <div class="header-right">
+      <button type="button" class="btn" id="login-btn">Iniciar sesión</button>
+    </div>
   </header>
 
   <!-- SEMANAS -->
-  <section>
-    <h2 class="section-title">Semanas</h2>
-    <div class="semana-scroll" id="week-scroll">
-      <button class="week-btn" type="button" id="all-weeks-btn">Todas</button>
-      <!-- Botones Semana 1-16 generados con JS -->
-    </div>
-  </section>
+  <main>
+    <section>
+      <h2 class="section-title">Semanas</h2>
+      <div class="semana-scroll" id="week-scroll">
+        <button class="week-btn" id="all-weeks-btn">Todas</button>
+        <!-- Botones Semana 1-16 se generan con JS -->
+      </div>
+    </section>
 
-  <!-- DOCUMENTOS -->
-  <section>
-    <h2 class="section-title">Documentos</h2>
-    <div id="week-content">
-      <p>Selecciona una semana o "Todas" para ver los documentos.</p>
-    </div>
-  </section>
+    <!-- DOCUMENTOS -->
+    <section>
+      <h2 class="section-title">Documentos</h2>
+      <div id="week-content">
+        <p>Selecciona una semana o "Todas" para ver los documentos.</p>
+      </div>
+    </section>
 
-  <!-- SUBIR DOCUMENTO (solo admin) -->
-  <section id="upload-section" style="display:none;">
-    <h2 class="section-title">Subir Documento</h2>
-    <form id="upload-form">
-      <select id="select-semana" required>
-        <option value="">Selecciona Semana</option>
-        <!-- Opciones 1-16 generadas con JS -->
-      </select>
-      <input type="file" id="upload-input" required>
-      <button type="submit" class="btn">Subir</button>
-    </form>
-  </section>
+    <!-- SUBIDA DE ARCHIVOS (ADMIN) -->
+    <section id="upload-section" style="display:none;">
+      <h2 class="section-title">Subir Documento</h2>
+      <form id="upload-form">
+        <select id="select-semana"></select>
+        <input type="file" id="upload-input" required>
+        <button type="submit" class="btn">Subir</button>
+      </form>
+    </section>
+  </main>
 
-  <!-- MODAL LOGIN -->
+  <!-- MODAL DE LOGIN -->
   <div class="modal" id="login-modal">
     <div class="modal-content">
       <span class="close" id="close-modal">&times;</span>
@@ -59,12 +62,11 @@
 
   <!-- FOOTER -->
   <footer class="footer">
-    <p>&copy; 2025 Geison. Todos los derechos reservados.</p>
+    <p>&copy; 2025 Geison. Todos los derechos reservadosssss.</p>
   </footer>
 
-  <!-- JS -->
-  <script type="module" src="modal.js"></script>
+  <!-- SCRIPTS -->
   <script type="module" src="app.js"></script>
-
 </body>
 </html>
+ 
