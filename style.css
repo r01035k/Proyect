@@ -2,6 +2,7 @@
 :root {
   --primary-color: #2ac6a4;  /* Verde agua */
   --secondary-color: #1f9d88;
+  --danger-color: #e74c3c;
   --bg-color: #f8fcfb;
   --text-color: #333;
   --shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
@@ -15,7 +16,9 @@
   box-sizing: border-box;
 }
 
+
 body {
+  
   font-family: 'Poppins', sans-serif;
   background-color: var(--bg-color);
   color: var(--text-color);
@@ -58,6 +61,12 @@ body {
 .btn:hover {
   background: var(--secondary-color);
   color: #fff;
+}
+
+/* Botón de eliminar (especial) */
+.btn-danger {
+  background: var(--danger-color) !important;
+  color: #fff !important;
 }
 
 /* ====== TITULOS ====== */
@@ -103,6 +112,16 @@ body {
   padding: 1rem 2rem;
 }
 
+#week-content p {
+  padding: 1rem;
+  background: #fff;
+  border-left: 4px solid var(--primary-color);
+  border-radius: var(--radius);
+  font-weight: 500;
+  box-shadow: var(--shadow);
+  margin: 1rem;
+}
+
 .doc-item {
   background: #fff;
   padding: 1rem;
@@ -111,6 +130,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .doc-item a {
@@ -147,6 +168,12 @@ body {
   padding: 0.5rem;
   border: 1px solid var(--primary-color);
   border-radius: var(--radius);
+  appearance: none;
+  background: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--text-color);
 }
 
 /* ====== MODAL LOGIN ====== */
@@ -171,6 +198,7 @@ body {
   max-width: 400px;
   text-align: center;
   box-shadow: var(--shadow);
+  position: relative;
 }
 
 .modal-content h2 {
