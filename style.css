@@ -1,8 +1,7 @@
 /* ====== VARIABLES ====== */
 :root {
-  --primary-color: #2ac6a4;  /* Verde agua */
+  --primary-color: #2ac6a4;  
   --secondary-color: #1f9d88;
-  --danger-color: #e74c3c;
   --bg-color: #f8fcfb;
   --text-color: #333;
   --shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
@@ -61,12 +60,6 @@ body {
   color: #fff;
 }
 
-/* Botón eliminar especial */
-.btn-danger {
-  background: var(--danger-color) !important;
-  color: #fff !important;
-}
-
 /* ====== TITULOS ====== */
 .section-title {
   text-align: center;
@@ -110,26 +103,15 @@ body {
   padding: 1rem 2rem;
 }
 
-#week-content p {
-  padding: 1rem;
-  background: #fff;
-  border-left: 4px solid var(--primary-color);
-  border-radius: var(--radius);
-  font-weight: 500;
-  box-shadow: var(--shadow);
-  margin: 1rem;
-}
-
 .doc-item {
   background: #fff;
   padding: 1rem;
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
 }
 
 .doc-item a {
@@ -141,11 +123,6 @@ body {
 
 .doc-item a:hover {
   color: var(--secondary-color);
-}
-
-.doc-item .btn {
-  padding: 0.3rem 0.8rem;
-  font-size: 0.85rem;
 }
 
 /* ====== UPLOAD (ADMIN) ====== */
@@ -166,12 +143,6 @@ body {
   padding: 0.5rem;
   border: 1px solid var(--primary-color);
   border-radius: var(--radius);
-  appearance: none;
-  background: #fff;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 0.95rem;
-  color: var(--text-color);
 }
 
 /* ====== MODAL LOGIN ====== */
@@ -186,6 +157,7 @@ body {
   background: rgba(0,0,0,0.5);
   justify-content: center;
   align-items: center;
+  display: flex;
 }
 
 .modal-content {
