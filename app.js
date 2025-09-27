@@ -1,7 +1,9 @@
-// Configuración de Supabase
-const supabaseUrl = "TU_SUPABASE_URL";
-const supabaseKey = "TU_SUPABASE_ANON_KEY";
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+import { createClient } from '@supabase/supabase-js'
+
+const supabaseUrl = 'https://lhdkokwouhekfkrylybg.supabase.co'
+const supabaseKey = process.env.SUPABASE_KEY
+const supabase = createClient(supabaseUrl, supabaseKey)
 
 document.addEventListener("DOMContentLoaded", () => {
   const weekContent = document.getElementById("week-content");

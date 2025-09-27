@@ -4,14 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portafolio Académico</title>
-
-  <!-- Forzar tema claro -->
-  <meta name="color-scheme" content="light only">
-
-  <!-- Fuente Poppins -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
-  <!-- CSS -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -22,7 +15,7 @@
       <h1>Portafolio Académico</h1>
     </div>
     <div class="header-right">
-      <button class="btn" id="login-btn">Iniciar Secion</button>
+      <button class="btn" id="login-btn">Admin</button>
     </div>
   </header>
 
@@ -31,9 +24,8 @@
     <section>
       <h2 class="section-title">Semanas</h2>
       <div class="semana-scroll" id="week-scroll">
-        <!-- Botón "Todas" -->
         <button class="week-btn" id="all-weeks-btn">Todas</button>
-        <!-- JS generará los botones Semana 1 a 16 -->
+        <!-- JS generará Semana 1 a 16 -->
       </div>
     </section>
 
@@ -61,8 +53,8 @@
       <span class="close" id="close-modal">&times;</span>
       <h2>Acceso Administrador</h2>
       <form id="login-form">
-        <input type="email" id="admin-email" placeholder="Correo" required>
-        <input type="password" id="admin-pass" placeholder="Contraseña" required>
+        <input type="email" id="admin-email" placeholder="Correo" value="geison.c.samaniego@gmail.com" required>
+        <input type="password" id="admin-pass" placeholder="Contraseña" value="Gsam123" required>
         <button type="submit" class="btn" id="modal-login-btn">Entrar</button>
       </form>
     </div>
@@ -73,9 +65,9 @@
     <p>&copy; 2025 Geison. Todos los derechos reservados.</p>
   </footer>
 
-  <!-- Scripts -->
+  <!-- SCRIPTS -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script src="app.js"></script>
+  <script src="app.js" defer></script>
 
 </body>
 </html>
