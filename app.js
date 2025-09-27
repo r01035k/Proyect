@@ -1,131 +1,72 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.getElementById("all-weeks-btn").addEventListener("click", async () => {
+  weekContent.innerHTML = "<p>Cargando documentos...</p>";
 
-  // ------------------ Conexión Supabase ------------------
-  const SUPABASE_URL = 'https://lhdkokwouhekfkrylybg.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxoZGtva3dvdWhla2ZrcnlseWJnIiwicm9sZSI6ImF0IjoxNzU4OTExNzE3LCJleHAiOjIwNzQ0ODc3MTd9.5BZoCLqCkqHyU7Neq0efRof_sXSzmmuOOLG-3wKMUYs';
-  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  // Traer todos los documentos de la tabla
+  const { data, error } = await supabase
+    .from("documentos")
+    .select("*")
+    .order("semana", { ascending: true }); // ordena por semana
 
-  // ------------------ Variables ------------------
-  let isAdmin = false;
-  const adminCredenciales = {
-      correo: "Geison.c.samaniego@gmail.com",
-      password: "GSam123"
-  };
+  if (error) {
+    weekContent.innerHTML = "<p>Error al cargar documentos.</p>";
+    console.error(error);
+    return;
+  }
 
-  // Elementos DOM
-  const loginBtn = document.getElementById("login-btn");
-  const uploadSection = document.getElementById("upload-section");
-  const uploadInput = document.getElementById("upload-input");
-  const uploadBtn = document.getElementById("upload-btn");
+  if (!data || data.length === 0) {
+    weekContent.innerHTML = "<p>No hay documentos registrados.</p>";
+    return;
+  }
 
-  const loginModal = document.getElementById("login-modal");
-  const closeModal = document.getElementById("close-modal");
-  const modalLoginBtn = document.getElementById("modal-login-btn");
-  const adminEmailInput = document.getElementById("admin-email");
-  const adminPassInput = document.getElementById("admin-pass");
+  // Agrupar los documentos por semana
+  const semanas = {};
+  data.forEach(doc => {
+    if (!semanas[doc.semana]) {
+      semanas[doc.semana] = [];
+    }
+    semanas[doc.semana].push(doc);
+  });
 
-  const weekScroll = document.getElementById("week-scroll");
-  const weekContent = document.getElementById("week-content");
+  // Mostrar cada semana con sus documentos
+  weekContent.innerHTML = "";
+  Object.keys(semanas).forEach(numSemana => {
+    const section = document.createElement("div");
+    section.classList.add("semana-section");
+    section.innerHTML = `<h3>Semana ${numSemana}</h3>`;
 
-  let semanas = Array.from({length:16},(_,i)=>`Semana ${i+1}`);
-  let semanaSeleccionada = 0;
+    semanas[numSemana].forEach(doc => {
+      const div = document.createElement("div");
+      div.classList.add("document-item");
+      div.innerHTML = `
+        <p><strong>${doc.nombre}</strong></p>
+        <a href="${doc.url}" target="_blank" class="btn">Ver</a>
+        <a href="${doc.url}" download class="btn">Descargar</a>
+      `;
 
-  // ------------------ Funciones ------------------
+      // Si es admin, botón de eliminar
+      if (isAdmin) {
+        const delBtn = document.createElement("button");
+        delBtn.textContent = "Eliminar";
+        delBtn.classList.add("btn", "btn-danger");
+        delBtn.onclick = async () => {
+          const { error: deleteError } = await supabase
+            .from("documentos")
+            .delete()
+            .eq("id", doc.id);
 
-  async function cargarDocumentos(semana) {
-      const { data, error } = await supabase
-          .from('documentos')
-          .select('*')
-          .eq('semana', `Semana ${semana}`)
-          .order('created_at', { ascending: false });
-
-      if(error) return alert("Error cargando documentos: "+error.message);
-
-      weekContent.innerHTML = "";
-
-      data.forEach(doc => {
-          const div = document.createElement("div");
-          div.className = "doc-item";
-
-          const url = `${SUPABASE_URL}/storage/v1/object/public/archivos/${doc.nombre}`;
-          div.innerHTML = `<a href="${url}" target="_blank">${doc.nombre}</a>`;
-
-          if(isAdmin){
-              const delBtn = document.createElement("button");
-              delBtn.className = "btn";
-              delBtn.style.marginLeft = "10px";
-              delBtn.textContent = "Eliminar";
-              delBtn.addEventListener("click", async ()=>{
-                  if(confirm(`¿Eliminar ${doc.nombre}?`)){
-                      await supabase.storage.from('archivos').remove([doc.nombre]);
-                      await supabase.from('documentos').delete().eq('id', doc.id);
-                      cargarDocumentos(semanaSeleccionada + 1);
-                  }
-              });
-              div.appendChild(delBtn);
+          if (!deleteError) {
+            document.getElementById("all-weeks-btn").click(); // recargar todo
+          } else {
+            alert("Error al eliminar");
+            console.error(deleteError);
           }
-
-          weekContent.appendChild(div);
-      });
-  }
-
-  function seleccionarSemana(index){
-      semanaSeleccionada = index;
-      const buttons = document.querySelectorAll(".week-btn");
-      buttons.forEach((btn,i)=>btn.classList.toggle("active", i===index));
-      cargarDocumentos(index+1);
-  }
-
-  // ------------------ Login Modal ------------------
-  loginBtn.addEventListener("click", ()=>{ loginModal.style.display="flex"; });
-  closeModal.addEventListener("click", ()=>{ loginModal.style.display="none"; });
-  window.addEventListener("click", (e)=>{ if(e.target===loginModal) loginModal.style.display="none"; });
-
-  modalLoginBtn.addEventListener("click", ()=>{
-      const correo = adminEmailInput.value;
-      const pass = adminPassInput.value;
-
-      if(correo === adminCredenciales.correo && pass === adminCredenciales.password){
-          isAdmin = true;
-          alert("¡Inicio de sesión exitoso!");
-          loginBtn.style.display="none";
-          uploadSection.style.display="flex";
-          loginModal.style.display="none";
-          adminEmailInput.value = "";
-          adminPassInput.value = "";
-          cargarDocumentos(semanaSeleccionada+1);
-      } else {
-          alert("Correo o contraseña incorrectos");
-          adminPassInput.value = "";
+        };
+        div.appendChild(delBtn);
       }
+
+      section.appendChild(div);
+    });
+
+    weekContent.appendChild(section);
   });
-
-  // ------------------ Subida de documentos ------------------
-  uploadBtn.addEventListener("click", async ()=>{
-      const file = uploadInput.files[0];
-      if(!file) return alert("Selecciona un archivo primero");
-
-      const { data, error } = await supabase.storage.from('archivos').upload(file.name, file, { upsert: true });
-      if(error) return alert("Error subiendo archivo: "+error.message);
-
-      const { error: errInsert } = await supabase.from('documentos').insert([
-          { nombre: file.name, semana: `Semana ${semanaSeleccionada+1}` }
-      ]);
-      if(errInsert) return alert("Error guardando en DB: "+errInsert.message);
-
-      uploadInput.value="";
-      cargarDocumentos(semanaSeleccionada+1);
-  });
-
-  // ------------------ Inicialización ------------------
-  semanas.forEach((sem,index)=>{
-      const btn = document.createElement("button");
-      btn.className = "week-btn";
-      btn.innerText = sem;
-      btn.addEventListener("click", ()=>seleccionarSemana(index));
-      weekScroll.appendChild(btn);
-  });
-
-  seleccionarSemana(0);
-
 });

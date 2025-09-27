@@ -1,96 +1,71 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portafolio Geison</title>
-    <!-- Fuente moderna -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portafolio Académico</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Header -->
-    <header id="header" class="header">
-        <div class="logo" id="logo">Mi Portafolio</div>
-        <nav class="nav" id="nav">
-            <ul class="nav-list">
-                <li class="nav-item active" id="curso1">Diseño Gráfico</li>
-            </ul>
-        </nav>
-        <div class="auth" id="auth">
-            <button class="btn" id="login-btn">Iniciar Sesión</button>
-        </div>
-    </header>
-
-    <!-- Sección de semanas -->
-    <main id="main-content" class="main-content">
-        <section id="semanas" class="semanas">
-            <h2 class="section-title">Semanas</h2>
-
-            <!-- Scroll de semanas -->
-            <div class="week-scroll" id="week-scroll">
-                <!-- Se generarán dinámicamente 16 semanas -->
-            </div>
-
-            <!-- Contenido de la semana seleccionada -->
-            <div class="week-content" id="week-content">
-                <!-- Aquí se mostrarán los trabajos de la semana -->
-            </div>
-
-            <!-- Botón de subir documento (solo admin) -->
-            <div class="upload-section" id="upload-section" style="display: none;">
-                <input type="file" id="upload-input" class="upload-input">
-                <button id="upload-btn" class="btn">Subir Documento</button>
-            </div>
-        </section>
-    </main>
-
-<!-- Login Modal -->
-<div id="login-modal" class="modal">
-    <div class="modal-content">
-        <span id="close-modal" class="close">&times;</span>
-        <h2>Iniciar Sesión</h2>
-        <input type="email" id="admin-email" placeholder="Correo electrónico" class="input-pass">
-        <input type="password" id="admin-pass" placeholder="Contraseña" class="input-pass">
-        <button id="modal-login-btn" class="btn">Entrar</button>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-left">
+      <h1>Portafolio</h1>
     </div>
-</div>
+    <div class="header-right">
+      <button class="btn" id="login-btn">Admin</button>
+    </div>
+  </header>
 
-<!-- Botón login -->
-<button id="login-btn" class="btn">Admin Login</button>
+  <!-- Semanas -->
+  <main>
+    <section>
+      <h2 class="section-title">Semanas</h2>
+      <div class="semana-scroll" id="week-scroll">
+        <!-- Botón para todas las semanas -->
+        <button class="week-btn" id="all-weeks-btn">Todas</button>
+        <!-- Los demás botones (Semana 1 a 16) se generan con JS -->
+      </div>
+    </section>
 
-<!-- Botón login -->
-<button id="login-btn" class="btn">Admin Login</button>
+    <!-- Documentos -->
+    <section>
+      <h2 class="section-title">Documentos</h2>
+      <div id="week-content">
+        <p>Selecciona una semana o "Todas" para ver los documentos.</p>
+      </div>
+    </section>
 
-<!-- Login Modal -->
-<div id="login-modal" class="modal">
-  <div class="modal-content">
-    <span id="close-modal" class="close">&times;</span>
-    <h2>Iniciar Sesión</h2>
-    <input type="email" id="admin-email" placeholder="Correo electrónico" class="input-pass">
-    <input type="password" id="admin-pass" placeholder="Contraseña" class="input-pass">
-    <button id="modal-login-btn" class="btn">Entrar</button>
+    <!-- Subida de archivos (solo admin) -->
+    <section id="upload-section" style="display:none;">
+      <h2 class="section-title">Subir Documento</h2>
+      <form id="upload-form">
+        <input type="file" id="upload-input" required>
+        <button type="submit" class="btn">Subir</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- Modal de login -->
+  <div class="modal" id="login-modal">
+    <div class="modal-content">
+      <span class="close" id="close-modal">&times;</span>
+      <h2>Acceso Administrador</h2>
+      <form id="login-form">
+        <input type="email" id="admin-email" placeholder="Correo" required>
+        <input type="password" id="admin-pass" placeholder="Contraseña" required>
+        <button type="submit" class="btn" id="modal-login-btn">Entrar</button>
+      </form>
+    </div>
   </div>
-</div>
 
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2025 Geison. Todos los derechos reservados.</p>
+  </footer>
 
-
-<!-- Scroll semanas -->
-<div id="week-scroll"></div>
-
-<!-- Contenido documentos -->
-<div id="week-content"></div>
-
-<!-- CDN Supabase -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
-<script src="app.js"></script>
-
-
-    <!-- Footer -->
-    <footer id="footer" class="footer">
-        <p>&copy; 2025 Geison. Todos los derechos reservados.</p>
-    </footer>
-
-    <script src="app.js"></script>
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
