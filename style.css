@@ -16,9 +16,7 @@
   box-sizing: border-box;
 }
 
-
 body {
-  
   font-family: 'Poppins', sans-serif;
   background-color: var(--bg-color);
   color: var(--text-color);
@@ -63,7 +61,7 @@ body {
   color: #fff;
 }
 
-/* Botón de eliminar (especial) */
+/* Botón eliminar especial */
 .btn-danger {
   background: var(--danger-color) !important;
   color: #fff !important;

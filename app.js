@@ -1,226 +1,190 @@
-// 🛠️ Configura tu Supabase
-const supabase = supabase.createClient(
-  'https://TU_URL_PROYECTO.supabase.co',
-  'TU_ANON_KEY'
-);
+// Configuración de Supabase
+const supabaseUrl = "TU_SUPABASE_URL";
+const supabaseKey = "TU_SUPABASE_ANON_KEY";
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-// 📌 Variables globales
-const weekContent = document.getElementById("week-content");
-const loginModal = document.getElementById("login-modal");
-const loginBtn = document.getElementById("login-btn");
-const closeModal = document.getElementById("close-modal");
-const loginForm = document.getElementById("login-form");
-const uploadSection = document.getElementById("upload-section");
-const uploadForm = document.getElementById("upload-form");
-const uploadInput = document.getElementById("upload-input");
-const weekScroll = document.getElementById("week-scroll");
+document.addEventListener("DOMContentLoaded", () => {
+  const weekContent = document.getElementById("week-content");
+  const loginModal = document.getElementById("login-modal");
+  const loginBtn = document.getElementById("login-btn");
+  const closeModal = document.getElementById("close-modal");
+  const loginForm = document.getElementById("login-form");
+  const uploadSection = document.getElementById("upload-section");
+  const uploadForm = document.getElementById("upload-form");
+  const uploadInput = document.getElementById("upload-input");
+  const weekScroll = document.getElementById("week-scroll");
 
-let isAdmin = false;
+  let isAdmin = false;
 
-// 🔓 Admin login
-loginBtn.addEventListener("click", () => {
-  loginModal.style.display = "flex";
-});
-closeModal.addEventListener("click", () => {
-  loginModal.style.display = "none";
-});
+  // ---------------- LOGIN ----------------
+  loginBtn.addEventListener("click", () => {
+    loginModal.style.display = "flex";
+    // Prellenar por defecto
+    document.getElementById("admin-email").value = "geison.c.samaniego@gmail.com";
+    document.getElementById("admin-pass").value = "Gsam123";
+  });
 
-loginForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const email = document.getElementById("admin-email").value;
-  const pass = document.getElementById("admin-pass").value;
-
-  // Validación simple (puedes usar Supabase Auth si prefieres)
-  if (email === "admin@admin.com" && pass === "admin123") {
-    isAdmin = true;
-    uploadSection.style.display = "block";
+  closeModal.addEventListener("click", () => {
     loginModal.style.display = "none";
-    alert("Sesión iniciada como admin.");
-  } else {
-    alert("Credenciales incorrectas");
-  }
-});
-
-// 🔁 Generar botones de semanas (1 a 16)
-for (let i = 1; i <= 16; i++) {
-  const btn = document.createElement("button");
-  btn.textContent = `Semana ${i}`;
-  btn.classList.add("week-btn");
-  btn.addEventListener("click", () => cargarDocumentosPorSemana(i));
-  weekScroll.appendChild(btn);
-}
-
-// 🔃 Botón "Todas"
-document.getElementById("all-weeks-btn").addEventListener("click", async () => {
-  await cargarTodosLosDocumentos();
-});
-
-// 📁 Subida de archivo
-uploadForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const file = uploadInput.files[0];
-  if (!file) return alert("Selecciona un archivo");
-
-  const semanaSeleccionada = prompt("¿A qué semana pertenece este archivo? (1 al 16)");
-  if (!semanaSeleccionada || isNaN(semanaSeleccionada)) {
-    return alert("Semana no válida");
-  }
-
-  // Subir al bucket de Supabase Storage
-  const filePath = `${Date.now()}_${file.name}`;
-  const { error: uploadError } = await supabase.storage
-    .from("documentos")
-    .upload(filePath, file);
-
-  if (uploadError) {
-    console.error(uploadError);
-    return alert("Error al subir archivo.");
-  }
-
-  // Obtener URL pública
-  const { data: publicUrlData } = supabase
-    .storage
-    .from("documentos")
-    .getPublicUrl(filePath);
-
-  const url = publicUrlData.publicUrl;
-
-  // Registrar en la tabla
-  const { error: insertError } = await supabase
-    .from("documentos")
-    .insert([{ nombre: file.name, semana: parseInt(semanaSeleccionada), url }]);
-
-  if (insertError) {
-    console.error(insertError);
-    return alert("Error al registrar documento en la base.");
-  }
-
-  alert("Documento subido con éxito.");
-  uploadForm.reset();
-  cargarTodosLosDocumentos(); // recargar vista
-});
-
-// 📥 Cargar todos los documentos
-async function cargarTodosLosDocumentos() {
-  weekContent.innerHTML = "<p>Cargando documentos...</p>";
-  const { data, error } = await supabase
-    .from("documentos")
-    .select("*")
-    .order("semana", { ascending: true });
-
-  if (error) {
-    weekContent.innerHTML = "<p>Error al cargar documentos.</p>";
-    console.error(error);
-    return;
-  }
-
-  if (!data || data.length === 0) {
-    weekContent.innerHTML = "<p>No hay documentos registrados.</p>";
-    return;
-  }
-
-  // Agrupar por semana
-  const semanas = {};
-  data.forEach(doc => {
-    if (!semanas[doc.semana]) semanas[doc.semana] = [];
-    semanas[doc.semana].push(doc);
   });
 
-  weekContent.innerHTML = "";
-  Object.keys(semanas).forEach(numSemana => {
-    const section = document.createElement("div");
-    section.innerHTML = `<h3>Semana ${numSemana}</h3>`;
+  loginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const email = document.getElementById("admin-email").value;
+    const pass = document.getElementById("admin-pass").value;
 
-    semanas[numSemana].forEach(doc => {
-      const div = document.createElement("div");
-      div.classList.add("doc-item");
-      div.innerHTML = `
-        <p><strong>${doc.nombre}</strong></p>
-        <a href="${doc.url}" target="_blank" class="btn">Ver</a>
-        <a href="${doc.url}" download class="btn">Descargar</a>
-      `;
-
-      if (isAdmin) {
-        const delBtn = document.createElement("button");
-        delBtn.textContent = "Eliminar";
-        delBtn.classList.add("btn");
-        delBtn.style.background = "#e74c3c";
-        delBtn.style.color = "#fff";
-        delBtn.onclick = async () => {
-          const { error: deleteError } = await supabase
-            .from("documentos")
-            .delete()
-            .eq("id", doc.id);
-          if (deleteError) {
-            alert("Error al eliminar");
-            console.error(deleteError);
-          } else {
-            alert("Documento eliminado");
-            cargarTodosLosDocumentos();
-          }
-        };
-        div.appendChild(delBtn);
-      }
-
-      section.appendChild(div);
-    });
-
-    weekContent.appendChild(section);
+    if(email === "geison.c.samaniego@gmail.com" && pass === "Gsam123") {
+      isAdmin = true;
+      uploadSection.style.display = "block";
+      loginModal.style.display = "none";
+      alert("Bienvenido admin");
+    } else {
+      alert("Credenciales incorrectas");
+    }
   });
-}
 
-// 📥 Cargar documentos por semana
-async function cargarDocumentosPorSemana(semana) {
-  weekContent.innerHTML = `<p>Cargando documentos de semana ${semana}...</p>`;
-  const { data, error } = await supabase
-    .from("documentos")
-    .select("*")
-    .eq("semana", semana)
-    .order("created_at", { ascending: true });
-
-  if (error) {
-    weekContent.innerHTML = "<p>Error al cargar documentos.</p>";
-    console.error(error);
-    return;
+  // ---------------- GENERAR BOTONES 1-16 ----------------
+  for(let i = 1; i <= 16; i++){
+    const btn = document.createElement("button");
+    btn.textContent = `Semana ${i}`;
+    btn.classList.add("week-btn");
+    btn.addEventListener("click", () => cargarDocumentosPorSemana(i));
+    weekScroll.appendChild(btn);
   }
 
-  if (!data || data.length === 0) {
-    weekContent.innerHTML = `<p>No hay documentos para la semana ${semana}.</p>`;
-    return;
-  }
+  // ---------------- BOTON TODAS ----------------
+  document.getElementById("all-weeks-btn").addEventListener("click", cargarTodosLosDocumentos);
 
-  weekContent.innerHTML = "";
-  data.forEach(doc => {
-    const div = document.createElement("div");
-    div.classList.add("doc-item");
-    div.innerHTML = `
-      <p><strong>${doc.nombre}</strong></p>
-      <a href="${doc.url}" target="_blank" class="btn">Ver</a>
-      <a href="${doc.url}" download class="btn">Descargar</a>
-    `;
+  // ---------------- FUNCIONES ----------------
+  async function cargarTodosLosDocumentos(){
+    weekContent.innerHTML = "<p>Cargando documentos...</p>";
 
-    if (isAdmin) {
-      const delBtn = document.createElement("button");
-      delBtn.textContent = "Eliminar";
-      delBtn.classList.add("btn");
-      delBtn.style.background = "#e74c3c";
-      delBtn.style.color = "#fff";
-      delBtn.onclick = async () => {
-        const { error: deleteError } = await supabase
-          .from("documentos")
-          .delete()
-          .eq("id", doc.id);
-        if (deleteError) {
-          alert("Error al eliminar");
-          console.error(deleteError);
-        } else {
-          alert("Documento eliminado");
-          cargarDocumentosPorSemana(semana);
-        }
-      };
-      div.appendChild(delBtn);
+    const { data, error } = await supabase
+      .from("documentos")
+      .select("*")
+      .order("semana", { ascending: true });
+
+    if(error){
+      weekContent.innerHTML = "<p>Error al cargar documentos.</p>";
+      console.error(error);
+      return;
     }
 
-    weekContent.appendChild(div);
+    if(!data || data.length === 0){
+      weekContent.innerHTML = "<p>No hay documentos registrados.</p>";
+      return;
+    }
+
+    mostrarDocumentos(data);
+  }
+
+  async function cargarDocumentosPorSemana(semana){
+    weekContent.innerHTML = "<p>Cargando documentos...</p>";
+
+    const { data, error } = await supabase
+      .from("documentos")
+      .select("*")
+      .eq("semana", semana)
+      .order("created_at", { ascending: true });
+
+    if(error){
+      weekContent.innerHTML = "<p>Error al cargar documentos.</p>";
+      console.error(error);
+      return;
+    }
+
+    if(!data || data.length === 0){
+      weekContent.innerHTML = `<p>No hay documentos para la semana ${semana}.</p>`;
+      return;
+    }
+
+    mostrarDocumentos(data);
+  }
+
+  function mostrarDocumentos(documentos){
+    // Agrupar por semana
+    const semanas = {};
+    documentos.forEach(doc => {
+      if(!semanas[doc.semana]) semanas[doc.semana] = [];
+      semanas[doc.semana].push(doc);
+    });
+
+    weekContent.innerHTML = "";
+    Object.keys(semanas).forEach(semana => {
+      const section = document.createElement("div");
+      section.classList.add("semana-section");
+      section.innerHTML = `<h3>Semana ${semana}</h3>`;
+
+      semanas[semana].forEach(doc => {
+        const div = document.createElement("div");
+        div.classList.add("doc-item");
+        div.innerHTML = `
+          <p><strong>${doc.nombre}</strong></p>
+          <a href="${doc.url}" target="_blank" class="btn">Ver</a>
+          <a href="${doc.url}" download class="btn">Descargar</a>
+        `;
+
+        if(isAdmin){
+          const delBtn = document.createElement("button");
+          delBtn.textContent = "Eliminar";
+          delBtn.classList.add("btn", "btn-danger");
+          delBtn.onclick = async () => {
+            const { error } = await supabase
+              .from("documentos")
+              .delete()
+              .eq("id", doc.id);
+
+            if(!error){
+              alert("Documento eliminado");
+              cargarTodosLosDocumentos();
+            } else {
+              alert("Error al eliminar documento");
+              console.error(error);
+            }
+          };
+          div.appendChild(delBtn);
+        }
+
+        section.appendChild(div);
+      });
+
+      weekContent.appendChild(section);
+    });
+  }
+
+  // ---------------- SUBIDA DE DOCUMENTOS ----------------
+  uploadForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if(uploadInput.files.length === 0) return alert("Selecciona un archivo");
+
+    const file = uploadInput.files[0];
+    const fileName = `${Date.now()}_${file.name}`;
+
+    // Subir archivo a Supabase Storage (asumiendo bucket 'documentos')
+    const { data, error } = await supabase.storage
+      .from("documentos")
+      .upload(fileName, file);
+
+    if(error){
+      alert("Error al subir archivo");
+      console.error(error);
+      return;
+    }
+
+    // Guardar registro en tabla 'documentos'
+    const { error: insertError } = await supabase
+      .from("documentos")
+      .insert([{ nombre: file.name, url: `${supabaseUrl}/storage/v1/object/public/documentos/${fileName}`, semana: 1 }]);
+
+    if(insertError){
+      alert("Error al guardar documento");
+      console.error(insertError);
+      return;
+    }
+
+    alert("Documento subido correctamente");
+    uploadInput.value = "";
+    cargarTodosLosDocumentos();
   });
-}
+
+});

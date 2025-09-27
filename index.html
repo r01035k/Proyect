@@ -3,35 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="color-scheme" content="light only">
   <title>Portafolio Académico</title>
-  <link rel="stylesheet" href="style.css">
+
+  <!-- Forzar tema claro -->
+  <meta name="color-scheme" content="light only">
+
+  <!-- Fuente Poppins -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Header -->
+
+  <!-- HEADER -->
   <header class="header">
     <div class="header-left">
-      <h1>Portafolio</h1>
+      <h1>Portafolio Académico</h1>
     </div>
     <div class="header-right">
-      <button class="btn" id="login-btn">Admin</button>
+      <button class="btn" id="login-btn">Iniciar Secion</button>
     </div>
   </header>
 
-  <!-- Semanas -->
+  <!-- SEMANAS -->
   <main>
     <section>
       <h2 class="section-title">Semanas</h2>
       <div class="semana-scroll" id="week-scroll">
-        <!-- Botón para todas las semanas -->
+        <!-- Botón "Todas" -->
         <button class="week-btn" id="all-weeks-btn">Todas</button>
-        <!-- Los demás botones (Semana 1 a 16) se generan con JS -->
+        <!-- JS generará los botones Semana 1 a 16 -->
       </div>
     </section>
 
-    <!-- Documentos -->
+    <!-- DOCUMENTOS -->
     <section>
       <h2 class="section-title">Documentos</h2>
       <div id="week-content">
@@ -39,7 +45,7 @@
       </div>
     </section>
 
-    <!-- Subida de archivos (solo admin) -->
+    <!-- SUBIDA DE ARCHIVOS (solo admin) -->
     <section id="upload-section" style="display:none;">
       <h2 class="section-title">Subir Documento</h2>
       <form id="upload-form">
@@ -49,7 +55,7 @@
     </section>
   </main>
 
-  <!-- Modal de login -->
+  <!-- MODAL LOGIN -->
   <div class="modal" id="login-modal">
     <div class="modal-content">
       <span class="close" id="close-modal">&times;</span>
@@ -62,7 +68,7 @@
     </div>
   </div>
 
-  <!-- Footer -->
+  <!-- FOOTER -->
   <footer class="footer">
     <p>&copy; 2025 Geison. Todos los derechos reservados.</p>
   </footer>
@@ -70,5 +76,6 @@
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script src="app.js"></script>
+
 </body>
 </html>
