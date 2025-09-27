@@ -157,8 +157,9 @@ body {
   background: rgba(0,0,0,0.5);
   justify-content: center;
   align-items: center;
-  display: flex;
+  display: flex; /* esto solo se activa al abrir el modal */
 }
+
 
 .modal-content {
   background: #fff;
